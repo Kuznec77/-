@@ -23,25 +23,35 @@ class House:
         return f"Название: {self.name}, кол-во этажей: {self.number_of_floors}"
 
     def __eq__(self, other):
-        return self.number_of_floors == other
+        if isinstance(other, House):
+            return self.number_of_floors == other.number_of_floors
+        elif isinstance(other, int):
+            return self.number_of_floors == other
 
     def __lt__(self, other):
-        return type_int(self, self.number_of_floors) < type_int(self, other)
+        if isinstance(other, House):
+            return self.number_of_floors < other.number_of_floors
+        elif isinstance(other, int):
+            return self.number_of_floors < other
 
     def __le__(self, other):
-        return type_int(self, self.number_of_floors) <= type_int(self, other)
+        return self.__eq__(other) or self.__lt__(other)
 
     def __gt__(self, other):
-        return type_int(self, self.number_of_floors) > type_int(self, other)
+        return not self.__le__(other)
 
     def __ge__(self, other):
-        return type_int(self, self.number_of_floors) >= type_int(self, other)
+        return not self.__lt__(other)
 
     def __ne__(self, other):
-        return type_int(self, self.number_of_floors) != type_int(self, other)
+        return not self.__lt__(other)
 
-    def __add__(self, value):
-        return type_int(self, self.number_of_floors) + type_int(self, value)
+    def __add__(self, value): # h1 = h1 + 10 или h1 = h1 + h2
+        if isinstance(value, int):
+            self.number_of_floors += value
+        elif isinstance(value, House):
+            self.number_of_floors += value.number_of_floors
+        return self
 
     def __iadd__(self, value):
         return self.__add__(type_int(self, value))
