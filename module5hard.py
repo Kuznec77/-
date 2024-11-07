@@ -24,38 +24,34 @@ class Video:
         self.title = title  # Заголовок видео
         self.duration = duration  # Длительность видео
         self.adult_mode = adult_mode  # 18+
-
-    def __str__(self):  # Необходимо для метода поиска
+    def __str__(self):
         return self.title
 
-
 class UrTube:
-    '''
-    Класс для хранения данных о пользователях и списка видео
-    '''
+    """
 
+    """
     def __init__(self):
-        self.users = []  # Список пользхователей в формате name (age)
-        self.videos = []  # Список видео в формате title
-        self.current_user = None  # Переменная с текущим пользователем, по умолчанию None
+        self.users = []
+        self.videos = []
+        self.current_user = None
 
     def log_in(self, nickname, password):
         for user in self.users:
             if user.nickname == nickname and user.password == password:
                 self.current_user = user
                 return True
-        return False
 
     def register(self, nickname, password, age):
         if self.log_in(nickname, password):
             print(f"Пользователь {nickname} уже существует")
         else:
-            self.users.append(User(nickname, password, age))
+            self.users.append(User(nickname, password, age))  # Регистрация пользователя
             self.current_user = self.users[-1]
             print(f"Пользователь {str(self.users[-1])} успешно зарегистрирован")
 
     def log_out(self):
-        self.current_user = None
+        self.surrent_user = None
 
     def add(self, *videos):
         for video in videos:
@@ -69,14 +65,14 @@ class UrTube:
                 result.append(str(video))
         return result
 
-    def watch_video(self, video_title):
-        if self.current_user is None:
+    def watch_video(self, video_title):  # Просмотр видео
+        if self.current_user is None:  # Проверяем авторизацию
             print('Войдите в аккаунт, чтобы смотреть видео')
         elif self.current_user.age < 18 and any(
-                [video.adult_mode for video in self.videos if video.title == video_title]):
+                [video.adult_mode for video in self.videos if video.title == video_title]):  # 18+
             print("Вам нет 18 лет, пожалуйста покиньте страницу")
         else:
-            for video in self.videos:
+            for video in self.videos:  # Запуск найденного видео
                 if video.title == video_title:
                     print("Просмотр видео", video_title)
                     print("Время просмотра:", end="")
@@ -85,10 +81,8 @@ class UrTube:
                         time.sleep(1)
                     print("Конец видео")
                     break
-            else:
-                print("Видео с таким названием не найдено")
 
-
+# Код программы
 ur = UrTube()
 v1 = Video('Лучший язык программирования 2024 года', 200)
 v2 = Video('Для чего девушкам парень программист?', 10, adult_mode=True)
