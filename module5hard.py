@@ -12,7 +12,7 @@ class User:
         self.age = age  # Возраст
 
     def __str__(self):  # Необходимо для отображения в консоли
-        return f"{self.nickname} ({self.age})"
+        return f"{self.nickname}"
 
 
 class Video:
@@ -38,12 +38,18 @@ class UrTube:
 
     def log_in(self, nickname, password):
         for user in self.users:
-            if user.nickname == nickname and user.password == password:
+            if user.nickname == nickname and user.password == hash(password):
                 self.current_user = user
                 return True
 
+    def log_in_check(self, nickname, password):
+        for user in self.users:
+            if user.nickname == nickname:
+                return True
+
     def register(self, nickname, password, age):
-        if self.log_in(nickname, password):
+        if self.log_in_check(nickname, password):# ДЛЯ проверки используем log_in_check, log_in не подходит,
+            # потому что там проверяется пароль и из-за этого у нас если ник такой же а пароль другой,вернется False а нужно True
             print(f"Пользователь {nickname} уже существует")
         else:
             self.users.append(User(nickname, password, age))  # Регистрация пользователя
