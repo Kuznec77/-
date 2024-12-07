@@ -5,8 +5,6 @@ class WordsFinder:
     def __init__(self, *files):
         self.file_names = files
 
-
-
     def get_all_words(self):
         all_words = {}
         for i in self.file_names:
@@ -30,7 +28,6 @@ class WordsFinder:
                     if value[i].lower() == word.lower():
                         res[key] = i + 1
                         break
-
             return res
 
     def count(self, word):
@@ -45,5 +42,3 @@ finder2 = WordsFinder('test_file.txt')
 print(finder2.get_all_words())
 print(finder2.find('TEXT'))
 print(finder2.count('teXT'))
-
-
